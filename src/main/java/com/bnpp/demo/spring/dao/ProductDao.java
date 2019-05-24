@@ -2,16 +2,16 @@ package com.bnpp.demo.spring.dao;
 
 import java.util.List;
 
-import com.bnpp.demo.spring.model.Product;
-import com.bnpp.demo.spring.model.ProductHistory;
+import com.bnpp.demo.spring.model.Product1;
+import com.bnpp.demo.spring.model.Product1History;
 
 public interface ProductDao {
-   Product getById(Long id);
-   void save(Product Product);
-   void update(Product Product);
-   void delete(Product Product);
-   void saveAll(List<Product> list);
-   List<Product> list(int pageNumber);
-   List<ProductHistory> getHistory(Long id);
+   Product1 getById(Long id);
+   void save(Product1 Product);
+   void update(Product1 Product);
+   void delete(Product1 Product);
+   void saveAll(List<Product1> list);
+   List<Product1> list(int pageNumber);
+   List<Product1History> getHistory(Long id);
 
 }

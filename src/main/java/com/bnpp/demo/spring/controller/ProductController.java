@@ -10,8 +10,8 @@ import java.util.Locale;
 
 import javax.validation.Valid;
 
-import com.bnpp.demo.spring.model.Product;
-import com.bnpp.demo.spring.model.ProductHistory;
+import com.bnpp.demo.spring.model.Product1;
+import com.bnpp.demo.spring.model.Product1History;
 import com.bnpp.demo.spring.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -49,12 +49,12 @@ public class ProductController {
 	}
 	
 	@ModelAttribute("product")
-    public Product formBackingObject() {
-        return new Product();
+    public Product1 formBackingObject() {
+        return new Product1();
     }
 
 	@PostMapping("/addProduct")
-	public String saveProduct(@ModelAttribute("product") @Valid Product product, BindingResult result, Model model) {
+	public String saveProduct(@ModelAttribute("product") @Valid Product1 product, BindingResult result, Model model) {
 
 		if (result.hasErrors()) {
 			model.addAttribute("products", productService.list(0));
@@ -70,8 +70,8 @@ public class ProductController {
 		if (result.hasErrors()) {
 			return "redirect:/";
 		}
-		Product product = productService.getById(id);
-		List<ProductHistory> pList = productService.getHistory(id);
+		Product1 product = productService.getById(id);
+		List<Product1History> pList = productService.getHistory(id);
 		model.addAttribute("product",product);
 		model.addAttribute("pList",pList);
 
@@ -83,7 +83,7 @@ public class ProductController {
 	}
 
 	@PostMapping("/editProduct")
-	public String editProduct(@ModelAttribute("product") @Valid Product product, BindingResult result, Model model) {
+	public String editProduct(@ModelAttribute("product") @Valid Product1 product, BindingResult result, Model model) {
 
 		if (result.hasErrors()) {
 			System.out.println(result.getAllErrors());
@@ -115,8 +115,8 @@ public class ProductController {
 		String[] users = userStr.split("");
 
 		SecureRandom rand = new SecureRandom();
-		String name = "Product ";
-		Product p = new Product();
+		String name = "Product1 ";
+		Product1 p = new Product1();
 
 		LocalDateTime localDateTime = LocalDate.parse("2001-06-12").atStartOfDay();
 		LocalDateTime nextTime = localDateTime.plusHours(1);
@@ -124,9 +124,9 @@ public class ProductController {
 
 		Date date = Date.from(instant2);
 		Date cDate = new Date();
-		List<Product> list = new ArrayList<>();
+		List<Product1> list = new ArrayList<>();
 		while(!date.after(cDate)){
-			p = new Product();
+			p = new Product1();
 			p.setName(name + date.getTime());
 			p.setDesc(name + date.getTime());
 			p.setCreateBy("User"+users[rand.nextInt(users.length-1)]);

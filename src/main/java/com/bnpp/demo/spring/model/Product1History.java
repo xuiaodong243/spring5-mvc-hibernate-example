@@ -8,7 +8,7 @@ import java.io.Serializable;
 @Entity
 @Embeddable
 @Table(name = "TBL_PRODUCTS_HISTORY_0")
-public class ProductHistory extends BaseProduct implements Serializable {
+public class Product1History extends BaseProduct implements Serializable {
 
     @Id
     @Column(name = "H_ID")

@@ -11,7 +11,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "TBL_PRODUCTS")
-public class Product extends BaseProduct{
+public class Product1 extends BaseProduct{
    @Id
    @GeneratedValue
    @Column(name = "PRO_ID")

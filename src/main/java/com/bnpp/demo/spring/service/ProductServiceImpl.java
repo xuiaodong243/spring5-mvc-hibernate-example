@@ -2,8 +2,8 @@ package com.bnpp.demo.spring.service;
 
 import java.util.List;
 
-import com.bnpp.demo.spring.model.Product;
-import com.bnpp.demo.spring.model.ProductHistory;
+import com.bnpp.demo.spring.model.Product1;
+import com.bnpp.demo.spring.model.Product1History;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,43 +11,37 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bnpp.demo.spring.dao.ProductDao;
 
 @Service
+@Transactional(readOnly = false, value="transactionManager")
 public class ProductServiceImpl implements ProductService {
 
    @Autowired
    private ProductDao productDao;
 
-   @Transactional
-   public Product getById(Long id) {
+   public Product1 getById(Long id) {
       return productDao.getById(id);
    }
 
-   @Transactional
-   public void save(Product product) {
+   public void save(Product1 product) {
       productDao.save(product);
    }
 
-   @Transactional
-   public void update(Product product) {
+   public void update(Product1 product) {
       productDao.update(product);
    }
 
-   @Transactional
-   public void delete(Product product) {
+   public void delete(Product1 product) {
       productDao.delete(product);
    }
 
-   @Transactional(readOnly = true)
-   public List<Product> list(int pageNumber) {
+   public List<Product1> list(int pageNumber) {
       return productDao.list(pageNumber);
    }
 
-   @Transactional
-   public void saveAll(List<Product> list){
+   public void saveAll(List<Product1> list){
       productDao.saveAll(list);
    };
 
-   @Transactional(readOnly = true)
-   public List<ProductHistory> getHistory(Long id){
+   public List<Product1History> getHistory(Long id){
       return productDao.getHistory(id);
    }
 
