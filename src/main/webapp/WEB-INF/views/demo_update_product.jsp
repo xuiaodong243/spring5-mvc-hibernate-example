@@ -20,6 +20,23 @@
 				padding: 20px;
 			}
 		</style>
+		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+			<script>
+
+				$( document ).ready(function() {
+					var pnames = new Array($(".pname").length);
+					$.each( $(".pname"), function(index, value) {
+						pnames[index] = $(value).html();
+					});
+					$("input[name=name]").autocomplete({
+						source: pnames
+					});
+				});
+
+			</script>
 	</head>
 	<body>
 	<div style="width: 49%;float:left;">
@@ -151,9 +168,9 @@
 			<c:forEach items="${hList}" var="product">
 				<tr>
 					<td>${product.id}</td>
-					<td>${product.name}</td>
-					<td>${product.desc}</td>
-					<td>${product.unitPrice}</td>
+					<td class="pname">${product.name}</td>
+					<td class="pdesc">${product.desc}</td>
+					<td class="pprice">${product.unitPrice}</td>
 					<td>
 						<c:set var="supplierId">${product.supplierId}</c:set>
 						<c:out value="${suppliers[supplierId]}"/>

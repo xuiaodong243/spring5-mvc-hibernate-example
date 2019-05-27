@@ -13,7 +13,10 @@ import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.persistence.Entity;
+import javax.sql.DataSource;
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Properties;
 
 @Configuration
 @EnableTransactionManagement
@@ -26,7 +29,13 @@ public class HibernateConfig {
 	@Bean(name="sessionFactory")
 	public LocalSessionFactoryBean getSessionFactory() {
 		LocalSessionFactoryBean factoryBean = new LocalSessionFactoryBean();
-		factoryBean.setConfigLocation(context.getResource("classpath:hibernate.cfg.xml"));
+		String resourcePath = "classpath:hibernate.cfg.xml";
+
+		if(Config.getInstance().getConfig().containsKey("system_property")){
+			resourcePath = "file:" + Config.getInstance().getConfig().getProperty("system_property") + File.separator + "hibernate.cfg.xml";
+		}
+		System.out.println("Load config for resource 1 :"+resourcePath);
+		factoryBean.setConfigLocation(context.getResource(resourcePath));
 		factoryBean.setAnnotatedClasses(Product1.class, Product1History.class);
 
 		return factoryBean;
@@ -37,7 +46,13 @@ public class HibernateConfig {
 	public LocalSessionFactoryBean getSessionFactory2() {
 		System.out.println("---------------------: session factory  2");
 		LocalSessionFactoryBean factoryBean = new LocalSessionFactoryBean();
-		factoryBean.setConfigLocation(context.getResource("classpath:hibernate.cfg2.xml"));
+		String resourcePath = "classpath:hibernate.cfg2.xml";
+
+		if(Config.getInstance().getConfig().containsKey("system_property")){
+			resourcePath = "file:" + Config.getInstance().getConfig().getProperty("system_property") + File.separator + "hibernate.cfg2.xml";
+		}
+		System.out.println("Load config for resource 2 :"+resourcePath);
+		factoryBean.setConfigLocation(context.getResource(resourcePath));
 
 		//factoryBean.setAnnotatedClasses();
 

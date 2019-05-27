@@ -96,7 +96,7 @@ public class ProductController {
 
 	@GetMapping("/preTestData")
 	public String preTestData(Locale locale, Model model) {
-		preTestData();
+		//preTestData();
 		model.addAttribute("products", productService.list(0));
 		return "addProducts";
 	}
@@ -110,40 +110,5 @@ public class ProductController {
 
 
 
-	private void preTestData(){
-		String userStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-		String[] users = userStr.split("");
 
-		SecureRandom rand = new SecureRandom();
-		String name = "Product1 ";
-		Product1 p = new Product1();
-
-		LocalDateTime localDateTime = LocalDate.parse("2001-06-12").atStartOfDay();
-		LocalDateTime nextTime = localDateTime.plusHours(1);
-		Instant instant2 = nextTime.toInstant(ZoneOffset.UTC);
-
-		Date date = Date.from(instant2);
-		Date cDate = new Date();
-		List<Product1> list = new ArrayList<>();
-		while(!date.after(cDate)){
-			p = new Product1();
-			p.setName(name + date.getTime());
-			p.setDesc(name + date.getTime());
-			p.setCreateBy("User"+users[rand.nextInt(users.length-1)]);
-			p.setUpdateBy("User"+users[rand.nextInt(users.length-1)]);
-
-			p.setCreateDt(date);
-			p.setUpdateDt(date);
-			list.add(p);
-
-			nextTime = nextTime.plusHours(12);
-			instant2 = nextTime.toInstant(ZoneOffset.UTC);
-			date = Date.from(instant2);
-
-			if(list.size()> 5000){
-				productService.saveAll(list);
-				list.clear();
-			}
-		}
-	}
 }

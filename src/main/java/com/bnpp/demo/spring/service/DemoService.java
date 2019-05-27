@@ -12,6 +12,7 @@ public interface DemoService {
    void deleteProduct(Product product);
    List<Product> listProducts(int pageNumber);
    List<ProductHistory> getProductHistory(Long id);
+   void saveAll(List<Product> list);
 
    List<Category> listCategories();
    List<Customer> listCustomers();

@@ -4,6 +4,7 @@ import com.bnpp.demo.spring.model.Product1History;
 import com.bnpp.demo.spring.model.demo.*;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
@@ -72,6 +73,22 @@ public class DemoDaoImpl implements DemoDao {
       List<ProductHistory> pList = query.getResultList();
       System.out.println("history size: "+pList.size());
       return pList;
+   }
+
+   @Override
+   public void saveAll(List<Product> list) {
+      Session session = sessionFactory.openSession();
+      Transaction tx = session.beginTransaction();
+      for ( int i=0; i<list.size(); i++ ) {
+         session.save(list.get(i));
+         if ( i % 20 == 0 ) { //20, same as the ADO batch size
+            //flush a batch of inserts and release memory:
+            session.flush();
+            session.clear();
+         }
+      }
+      tx.commit();
+      session.close();
    }
 
    @Override

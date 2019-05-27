@@ -89,7 +89,7 @@
 			</tr>
 			<c:forEach items="${products}" var="product">
 				<tr>
-					<td><a href="getDemoProduct?id=${product.id}">${product.id}</a></td>
+					<td><a href="../getDemoProduct?id=${product.id}">${product.id}</a></td>
 					<td>${product.name}</td>
 					<td>${product.desc}</td>
 					<td>${product.unitPrice}</td>
@@ -108,8 +108,8 @@
 				</tr>
 			</c:forEach>
 			<tr>
-				<td colspan="5"><a href="listProducts?page=0">First Page</a></td>
-				<td colspan="5"><a href="listProducts?page=${pageIndex+1}">Next Page</a></td>
+				<td colspan="5"><a href="../listDemoProducts">First Page</a></td>
+				<td colspan="5"><a href="../listDemoProducts/${pageIndex+1}">Next Page</a></td>
 			</tr>
 		</table>
 	</body>

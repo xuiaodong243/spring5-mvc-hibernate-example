@@ -70,6 +70,11 @@ public class DemoServiceImpl implements DemoService {
    }
 
    @Override
+   public void saveAll(List<Product> list) {
+      demoDao.saveAll(list);
+   }
+
+   @Override
    public List<Category> listCategories() {
       return demoDao.listCategories();
    }

@@ -10,6 +10,7 @@ import javax.validation.Valid;
 import com.bnpp.demo.spring.model.demo.Product;
 import com.bnpp.demo.spring.service.DemoService;
 import com.bnpp.demo.spring.service.ProductService;
+import com.github.javafaker.Faker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -30,12 +31,17 @@ public class DemoController {
 		return "demo_menu";
 	}
 
-	@GetMapping("listDemoProducts")
-	public String productForm(Locale locale, Model model) {
-		model.addAttribute("products", demoService.listProducts(0));
-		model.addAttribute("pageIndex",0);
+	@GetMapping("listDemoProducts/{page}")
+	public String productFormWithPageIndex(@PathVariable("page")Integer pageIndex,  Model model) {
+		model.addAttribute("products", demoService.listProducts(pageIndex));
+		model.addAttribute("pageIndex",pageIndex);
 		conSuppliersAndCatesToMap(model);
 		return "demo_products";
+	}
+
+	@GetMapping("listDemoProducts")
+	public String productForm() {
+		return "redirect:listDemoProducts/0";
 	}
 
 	private void conSuppliersAndCatesToMap(Model model){
@@ -102,5 +108,6 @@ public class DemoController {
 	public Product formBackingObject() {
 		return new Product();
 	}
+
 
 }
