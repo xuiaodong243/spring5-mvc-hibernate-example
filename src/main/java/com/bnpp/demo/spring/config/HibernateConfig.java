@@ -26,64 +26,41 @@ public class HibernateConfig {
 	@Autowired
 	private ApplicationContext context;
 
-	@Bean(name="sessionFactory")
-	public LocalSessionFactoryBean getSessionFactory() {
+	private LocalSessionFactoryBean getSessionFactoryBean(String conf){
 		LocalSessionFactoryBean factoryBean = new LocalSessionFactoryBean();
-		String resourcePath = "classpath:hibernate.cfg.xml";
+		String resourcePath = "classpath:" + conf;
 
 		if(Config.getInstance().getConfig().containsKey("system_property")){
-			resourcePath = "file:" + Config.getInstance().getConfig().getProperty("system_property") + File.separator + "hibernate.cfg.xml";
+			resourcePath = "file:" + Config.getInstance().getConfig().getProperty("system_property") + File.separator + conf;
 		}
-		System.out.println("Load config for resource 1 :"+resourcePath);
+		System.out.println("Load config for resource :"+resourcePath);
 		factoryBean.setConfigLocation(context.getResource(resourcePath));
-		factoryBean.setAnnotatedClasses(Product1.class, Product1History.class);
-
 		return factoryBean;
 	}
 
-	/* New Database connection*/
-	@Bean(name="sessionFactory2")
-	public LocalSessionFactoryBean getSessionFactory2() {
-		System.out.println("---------------------: session factory  2");
-		LocalSessionFactoryBean factoryBean = new LocalSessionFactoryBean();
-		String resourcePath = "classpath:hibernate.cfg2.xml";
-
-		if(Config.getInstance().getConfig().containsKey("system_property")){
-			resourcePath = "file:" + Config.getInstance().getConfig().getProperty("system_property") + File.separator + "hibernate.cfg2.xml";
-		}
-		System.out.println("Load config for resource 2 :"+resourcePath);
-		factoryBean.setConfigLocation(context.getResource(resourcePath));
-
-		//factoryBean.setAnnotatedClasses();
-
-		/* Dont know why doesn't work,
-		*  dont want do research...
-		*
-		* */
-		//factoryBean.setAnnotatedPackages("com.bnpp.demo.spring.model.demo");
-
+	private void setAnotatedClasses(LocalSessionFactoryBean factoryBean,String basePackage){
 		ArrayList<Class> classes = new ArrayList<Class>();
-
 		// the following will detect all classes that are annotated as @Entity
-		ClassPathScanningCandidateComponentProvider scanner =
-				new ClassPathScanningCandidateComponentProvider(true);
+		ClassPathScanningCandidateComponentProvider scanner = new ClassPathScanningCandidateComponentProvider(true);
 		scanner.addIncludeFilter(new AnnotationTypeFilter(Entity.class));
-
-		// only register classes within "com.bnpp.demo.spring.model.demo" package
-		for (BeanDefinition bd : scanner.findCandidateComponents("com.bnpp.demo.spring.model.demo")) {
+		for (BeanDefinition bd : scanner.findCandidateComponents(basePackage)) {
 			String name = bd.getBeanClassName();
 			try {
-				System.out.print(name + ".class,");
+				System.out.print(name + ".class");
 				classes.add(Class.forName(name));
 			} catch (Exception E) {
 				E.printStackTrace();
 			}
 		} // for
-
 		// register detected classes with AnnotationSessionFactoryBean
 		System.out.println("---------------------:"+classes.size());
 		factoryBean.setAnnotatedClasses(classes.toArray(new Class[classes.size()]));
+	}
 
+	@Bean(name="sessionFactory")
+	public LocalSessionFactoryBean getSessionFactory() {
+		LocalSessionFactoryBean factoryBean = getSessionFactoryBean("hibernate.cfg.xml");
+		factoryBean.setAnnotatedClasses(Product1.class, Product1History.class);
 		return factoryBean;
 	}
 
@@ -93,9 +70,30 @@ public class HibernateConfig {
 		transactionManager.setSessionFactory(getSessionFactory().getObject());
 		return transactionManager;
 	}
+	/* New Database connection*/
+	@Bean(name="sessionFactory2")
+	public LocalSessionFactoryBean getSessionFactory2() {
+		LocalSessionFactoryBean factoryBean = getSessionFactoryBean("hibernate.cfg2.xml");
+		setAnotatedClasses(factoryBean,"com.bnpp.demo.spring.model.demo");
+		return factoryBean;
+	}
 
 	@Bean(name="transactionManager2")
 	public HibernateTransactionManager getTransactionManager2() {
+		HibernateTransactionManager transactionManager = new HibernateTransactionManager();
+		transactionManager.setSessionFactory(getSessionFactory2().getObject());
+		return transactionManager;
+	}
+
+	@Bean(name="sessionFactory3")
+	public LocalSessionFactoryBean getSessionFactory3() {
+		LocalSessionFactoryBean factoryBean = getSessionFactoryBean("hibernate.cfg3.xml");
+		setAnotatedClasses(factoryBean,"com.bnpp.demo.spring.model.demo");
+		return factoryBean;
+	}
+
+	@Bean(name="transactionManager3")
+	public HibernateTransactionManager getTransactionManager3() {
 		HibernateTransactionManager transactionManager = new HibernateTransactionManager();
 		transactionManager.setSessionFactory(getSessionFactory2().getObject());
 		return transactionManager;

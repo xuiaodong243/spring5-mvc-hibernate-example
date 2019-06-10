@@ -1,17 +1,11 @@
 package com.bnpp.demo.spring.controller;
 
-import java.security.SecureRandom;
 import java.text.SimpleDateFormat;
-import java.time.*;
 import java.util.*;
 
 import javax.validation.Valid;
 
 import com.bnpp.demo.spring.model.demo.Product;
-import com.bnpp.demo.spring.service.DemoService;
-import com.bnpp.demo.spring.service.ProductService;
-import com.github.javafaker.Faker;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,10 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("demo")
-public class DemoController {
-
-	@Autowired
-	private DemoService demoService;
+public class DemoController extends BaseController{
 
 	@GetMapping("/")
 	public String menu(Locale locale, Model model) {
@@ -42,21 +33,6 @@ public class DemoController {
 	@GetMapping("listDemoProducts")
 	public String productForm() {
 		return "redirect:listDemoProducts/0";
-	}
-
-	private void conSuppliersAndCatesToMap(Model model){
-
-		Map<String, String> suppliers = new HashMap<String, String>();
-		demoService.listSuppliers().stream().forEach(d -> {
-			suppliers.put(d.getId().toString(),d.getName());
-		});
-		Map<String, String> categories = new HashMap<String, String>();
-		demoService.listCategories().stream().forEach(d -> {
-			categories.put(d.getId().toString(),d.getName());
-		});
-
-		model.addAttribute("suppliers",suppliers);
-		model.addAttribute("categories",categories);
 	}
 
 	@PostMapping("addDemoProduct")

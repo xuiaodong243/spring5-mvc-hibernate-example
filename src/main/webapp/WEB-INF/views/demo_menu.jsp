@@ -23,7 +23,7 @@
 	</head>
 	<body>
 		<h1>Testing Menu</h1>
-		<a href="listDemoProducts">List Products</a>
+		<a href="../demo/listDemoProducts">List Products</a>
 		
 
 
